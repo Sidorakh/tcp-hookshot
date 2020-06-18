@@ -1,0 +1,67 @@
+<div>
+    <div class="large"> Webhooks </div>
+    <form action="/dashboard/create-hook" method="POST">
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+            <input class="mdl-textfield__input" type="text" id="webhook-create-name" name="name">
+            <label class="mdl-textfield__label" for="sample3"> Webhook Name </label>
+        </div>
+        <div>
+            <input type="submit"class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" value="Create Webhook">
+        </div>
+    </form>
+    <div class="webhook-list">
+        <% for (var i=0;i<webhooks.length;i++) { %>
+            <% var webhook = webhooks[i]; %>
+            <% var webhook_url = `//${hostname}/hook/${user.id}/${webhook.WebhookID}`; %>
+            <div class="webhook-item flexy" id=<%=`"webhook-${webhook.WebhookID}"`%>>
+                <div class="webhook-left flexy-pad">
+                    <div class="webhook-name">
+                        <form id="webhook-update" method="post" action=<%= `"/update-hook/${user.id}/${webhook.WebhookID}"` %>>
+                            <input type="hidden" value= <%= `"${webhook.WebhookID}"` %>>
+                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                            <input class="mdl-textfield__input" type="text" id="webhook-name-1" name="webhook-name" value="<%=webhook.WebhookName%>">
+                                <label class="mdl-textfield__label" for="webhook-name-1"> Webhook Name </label>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="webhook-url">
+                        URL:
+                        <a href="<%= webhook_url %>">
+                            https:<%= webhook_url %>
+                        </a>
+                        <button class="mdl-chip__action">
+                            <i class="material-icons mdl-12">content_copy</i>
+                        </button>
+                    </div>
+                    <div class="webhook-secret">
+                        Secret: <div class="tooltip">
+                            <span class="webhook-secret-span webhook-secret-hidden"> <span id="webhook-<%=webhook.WebhookID%>"> <%= webhook.WebhookToken %> </span> <span class="tooltip-content"> Click to reveal/hide </span> </span>
+                        </div>
+                        <button class="mdl-chip__action" onclick='copy("<%-`webhook-${webhook.WebhookID}`%>")'>
+                            <i class="material-icons mdl-12">content_copy</i>
+                        </button>
+                    </div>
+                </div>
+                <div class="webhook-right flexy-item">
+                    <div class="manage-webhook">
+                        Manage Webhook
+                    </div>
+                    <div class="manage-webhook">
+                        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored edit-button" data-for="1" disabled>
+                            Update Webhook
+                        </button>
+                    </div>
+                    <div class="manage-webhook">
+                        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" data-for="1">
+                            Delete Webhook
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <% if (i < webhooks.length-1 ) { %>
+                <hr>
+            <% } %>
+        <% } %>
+    </div>
+</div>
+<script defer src="/assets/dashboard.js"></script>

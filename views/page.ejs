@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>  <%= (title!='' ? `${title} | ` : '') %> TCP Hookshot </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css" />
+        <link rel="stylesheet" href="/assets/style.css" />
+        <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+    </head>
+    <body>
+        <div class="flexy">
+            <div class="flexy-pad"></div>
+            <div class="page flexy-pad">
+                <div class="flexy">
+                    <div class="flexy-pad"></div>
+                    <div class="flexy-item">
+                        <hr>
+                        <div class="title">
+                            TCP Hookshot
+                        </div>
+                        <hr>
+                    </div>
+                    <div class="flexy-pad"></div>
+                </div>
+                <div class="flexy topbar">
+                    <div class="flexy-pad">
+                        <a href="/">
+                            <div class="topbar-link topbar-link-left topbar-link-right">
+                                Home
+                            </div>
+                        </a>
+                    </div>
+                    <div class="flexy-pad">
+                        <a href="/about"> 
+                            <div class="topbar-link topbar-link-left topbar-link-right">
+                                About
+                            </div>
+                        </a>
+                    </div>
+                    <div class="flexy-pad">
+                        <a href="/dashboard"> 
+                            <div class="topbar-link topbar-link-left topbar-link-right">
+                                Dashboard
+                            </div>
+                        </a>
+                    </div>
+                    <div class="flexy-pad">
+                        <% if (user) { %>
+                            <a href="/logout">
+                                <div class="topbar-link topbar-link-left topbar-link-right">
+                                    Logout
+                                </div>
+                            </a>
+                        <% } else { %>
+                            <a href="/login">
+                                <div class="topbar-link topbar-link-left topbar-link-right">
+                                    Login
+                                </div>
+                            </a>
+                        <% } %>
+                    </div>
+                </div>
+                <div id="container">
+<%- include(page) %>
+                </div>
+            </div>
+            <div class="flexy-pad"></div>
+        </div>
+    </body>
+</html>
