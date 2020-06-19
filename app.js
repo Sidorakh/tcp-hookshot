@@ -10,6 +10,7 @@ const db = new Database('hooks.db');
 const discord_scopes = ['identify', 'email'];
 const uuid = require('uuid');
 const crypto = require('crypto');
+const axios = require('axios').default;
 
 const connected_clients = {};
 passport.use(new DiscordStrategy({
@@ -66,8 +67,13 @@ app.post('/dashboard/create-hook',check_auth,(req,res)=>{
     stmt.run(webhook_id,req.body.name,req.user.id,webhook_secret);
     res.redirect(`/dashboard?#webhook-${webhook_id}`);
 });
-
-
+app.get('/service/ip',async (req,res)=>{
+    const data = await axios.get('https://api.ipify.org?format=json');
+    res.send({
+        ip:data.data.ip,
+        port:process.env.TCP_PORT
+    });
+})
 
 
 app.all('/hook/:owner_id/:hook_id',(req,res)=>{
