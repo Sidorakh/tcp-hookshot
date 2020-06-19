@@ -74,7 +74,8 @@ app.all('/hook/:owner_id/:hook_id',(req,res)=>{
     const owner_id = req.params.owner_id;
     const hook_id = req.params.hook_id;
     const stmt = db.prepare(`SELECT * FROM Webhooks WHERE WebhookID=(?) AND UserID=(?)`);
-    if (stmt.get(hook_id,owner_id) == undefined) {
+    const hook = stmt.get(hook_id,owner_id);
+    if (hook == undefined) {
         return res.status(400).send(`Webhook not found`);
     }
     res.send('received');
@@ -82,7 +83,8 @@ app.all('/hook/:owner_id/:hook_id',(req,res)=>{
         method:req.method,
         headers:req.header,
         body:req.body,
-        query:req.query
+        query:req.query,
+        name:hook.WebhookName
     }));
 });
 

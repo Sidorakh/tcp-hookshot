@@ -18,5 +18,6 @@ for (const webhook of webhooks) {
     });
 }
 function copy(elem) {
-    navigator.clipboard.writeText(elem.innerText != undefined ? elem.innerText : elem.value);
+    const el = document.querySelector(elem);
+    navigator.clipboard.writeText(el.innerText != undefined ? el.innerText : el.value);
 }

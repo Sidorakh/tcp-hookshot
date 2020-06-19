@@ -3,7 +3,7 @@
     <form action="/dashboard/create-hook" method="POST">
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
             <input class="mdl-textfield__input" type="text" id="webhook-create-name" name="name">
-            <label class="mdl-textfield__label" for="sample3"> Webhook Name </label>
+            <label class="mdl-textfield__label" for="webhook-create-name"> Webhook Name </label>
         </div>
         <div>
             <input type="submit"class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" value="Create Webhook">
@@ -26,18 +26,24 @@
                     </div>
                     <div class="webhook-url">
                         URL:
-                        <a href="<%= webhook_url %>">
+                        <a href="<%= webhook_url %>" id="webhook-url-<%=webhook.WebhookID%>">
                             https:<%= webhook_url %>
                         </a>
-                        <button class="mdl-chip__action">
+                        <button class="mdl-chip__action" onclick='copy("<%-`#webhook-url-${webhook.WebhookID}`%>")'>
+                            <i class="material-icons mdl-12">content_copy</i>
+                        </button>
+                    </div>
+                    <div class="webhook-id">
+                        Webhook ID: <span  id="webhook-id-<%=webhook.WebhookID%>"> <%= webhook.WebhookID %> </span>
+                        <button class="mdl-chip__action" onclick='copy("<%-`#webhook-id-${webhook.WebhookID}`%>")'>
                             <i class="material-icons mdl-12">content_copy</i>
                         </button>
                     </div>
                     <div class="webhook-secret">
                         Secret: <div class="tooltip">
-                            <span class="webhook-secret-span webhook-secret-hidden"> <span id="webhook-<%=webhook.WebhookID%>"> <%= webhook.WebhookToken %> </span> <span class="tooltip-content"> Click to reveal/hide </span> </span>
+                            <span class="webhook-secret-span webhook-secret-hidden"> <span id="webhook-secret-<%=webhook.WebhookID%>"> <%= webhook.WebhookToken %> </span> <span class="tooltip-content"> Click to reveal/hide </span> </span>
                         </div>
-                        <button class="mdl-chip__action" onclick='copy("<%-`webhook-${webhook.WebhookID}`%>")'>
+                        <button class="mdl-chip__action" onclick='copy("<%-`#webhook-secret-${webhook.WebhookID}`%>")'>
                             <i class="material-icons mdl-12">content_copy</i>
                         </button>
                     </div>
