@@ -151,9 +151,10 @@ const server = net.createServer((sock)=>{
             }
         }
     });
-    sock.on('error',()=>{
-        console.log('Error found on client - disconnecting');
-        sock.destroy();
+    sock.on('error',(e)=>{
+        //console.log('Error found on client - disconnecting');
+        //sock.destroy();
+        console.error(e);
     });
 });
 
