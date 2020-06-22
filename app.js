@@ -181,7 +181,7 @@ function webhook_broadcast(hook_id,data) {
     const hook = connected_clients[hook_id];
     for (const id of Object.keys(hook)) {
         try {
-            hook[id].write(data);
+            hook[id].write(data+'\0');
         } catch(e) {
             // meh
         }
