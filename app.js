@@ -121,32 +121,34 @@ const server = net.createServer((sock)=>{
     sock.uuid = uuid.v4();
     sock.ready = false;
     sock.on('data',(buff)=>{    // packet types: init, keepalive
-        let packet = buff.toString();
-        packet = JSON.parse(packet);
-        //console.log(packet);
-        switch (packet.type) {
-            case 'init':
-                if(sock.ready==false) {
-                    const stmt = db.prepare(`SELECT * FROM Webhooks WHERE WebhookID=(?) AND WebhookToken=(?)`);
-                    const hook = stmt.get(packet.hook_id,packet.secret_key);
-                    if (hook) {
-                        sock.ready = true;
-                        sock.webhook = hook.WebhookID;
-                        console.log('we got a client!');
-                        register_client(hook.WebhookID,sock);
-                        sock.ready = true;
-                    } else {
-                        sock.destroy();
+        const packet_list = buff.toString().split('\0');
+        for (const packet of packet_list) {
+            packet = JSON.parse(packet);
+            //console.log(packet);
+            switch (packet.type) {
+                case 'init':
+                    if(sock.ready==false) {
+                        const stmt = db.prepare(`SELECT * FROM Webhooks WHERE WebhookID=(?) AND WebhookToken=(?)`);
+                        const hook = stmt.get(packet.hook_id,packet.secret_key);
+                        if (hook) {
+                            sock.ready = true;
+                            sock.webhook = hook.WebhookID;
+                            console.log('we got a client!');
+                            register_client(hook.WebhookID,sock);
+                            sock.ready = true;
+                        } else {
+                            sock.destroy();
+                        }
                     }
-                }
 
-            break;
-            case 'keepalive':
-                sock.write(JSON.stringify({
-                    type:'keepalive',
-                    time:Date.now()
-                }));
-            break;
+                break;
+                case 'keepalive':
+                    sock.write(JSON.stringify({
+                        type:'keepalive',
+                        time:Date.now()
+                    }));
+                break;
+            }
         }
     });
     sock.on('error',()=>{
