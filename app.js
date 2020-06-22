@@ -122,7 +122,7 @@ const server = net.createServer((sock)=>{
     sock.ready = false;
     sock.on('data',(buff)=>{    // packet types: init, keepalive
         const packet_list = buff.toString().split('\0');
-        for (const packet of packet_list) {
+        for (let packet of packet_list) {
             packet = JSON.parse(packet);
             //console.log(packet);
             switch (packet.type) {
