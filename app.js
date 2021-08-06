@@ -24,7 +24,7 @@ passport.use(new DiscordStrategy({
 ));
 passport.serializeUser((user,done)=>{
     db.prepare(`INSERT OR IGNORE INTO UserSessions(UserID,SessionData) VALUES (?,?)`).run(user.id,JSON.stringify(user));
-    db.prepare(`UPDATE UserSessions SET SessionData=(?) WHERE UserID=(?)`).run(user.id,JSON.stringify(user));
+    db.prepare(`UPDATE UserSessions SET SessionData=(?) WHERE UserID=(?)`).run(JSON.stringify(user),user.id);
     
     done(null,user);
 });
